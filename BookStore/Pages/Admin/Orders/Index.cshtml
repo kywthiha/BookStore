@@ -5,6 +5,27 @@
     ViewData["Title"] = "Index";
     Layout = "~/Pages/Admin/Shared/_Layout.cshtml";
 }
+
+    <form class="form-inline">
+        <div class="form-group mx-sm-3 mb-2">
+            <input type="search" asp-for="SearchPhone" class="form-control" id="inputPassword2" placeholder="Enter order title">
+        </div>
+        <div class="form-group mx-sm-3 mb-2">
+
+            <input type="date" asp-for="SearchDate" class="form-control"/>
+        </div>
+        <div class="form-group mx-sm-3 mb-2">
+            <select class="form-control" asp-for="SearchStatus">
+                <option value="">Select Status</option>
+                <option value="false">Marks As Delivered</option>
+                <option value="true">Undo</option>
+
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary mb-2">Flilter</button>
+    </form>
+
 <table class="table">
     <thead>
         <tr>
@@ -27,7 +48,7 @@
                 @Html.DisplayNameFor(model => model.Order[0].Address)
             </th>
             <th>
-               Order Date
+                Order Date
             </th>
             <th>
             </th>
@@ -95,7 +116,7 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.CreateDate)
                     </td>
-                 
+
                     <td>
                         <a class="btn btn-sm btn-outline-primary" role="button" asp-page="./Index" asp-route-mid="@item.ID">Mask as Deliver</a>
                     </td>

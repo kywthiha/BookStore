@@ -82,9 +82,9 @@ namespace BookStore.Pages
                 "order",
                 o=>o.Name,o=>o.Email,o=>o.Phone,o=>o.Address))
             {
-                _context.Order.Add(Order);
+                _context.Order.Add(order);
                 await _context.SaveChangesAsync();
-                int orderId = Order.ID;
+                int orderId = order.ID;
                 foreach ( var book in Books)
                 {
                     OrderItem orderItem = new OrderItem();
