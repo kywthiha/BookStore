@@ -1,0 +1,109 @@
+﻿@page
+@model BookStore.Pages.Admin.Orders.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Pages/Admin/Shared/_Layout.cshtml";
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Order[0].ID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Order[0].Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Order[0].Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Order[0].Phone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Order[0].Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Order[0].Address)
+            </th>
+            <th>
+               Order Date
+            </th>
+            <th>
+            </th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Order)
+        {
+            if (item.Status)
+            {
+                <tr class="table-warning">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Phone)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Address)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreateDate)
+                    </td>
+                    <td>
+                        <a class="btn btn-sm btn-danger" role="button" asp-page="./Index" asp-route-uid="@item.ID">Undo</a>
+
+                    </td>
+                    <td>
+                        <a asp-page="./Details" asp-route-id="@item.ID">Details</a>
+                    </td>
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Phone)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Address)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreateDate)
+                    </td>
+                 
+                    <td>
+                        <a class="btn btn-sm btn-outline-primary" role="button" asp-page="./Index" asp-route-mid="@item.ID">Mask as Deliver</a>
+                    </td>
+                    <td>
+                        <a asp-page="./Details" asp-route-id="@item.ID">Details</a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

@@ -4,14 +4,16 @@ using BookStore.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BookStore.Migrations
 {
     [DbContext(typeof(BookStoreContext))]
-    partial class BookStoreContextModelSnapshot : ModelSnapshot
+    [Migration("20200420080146_Orders-Create")]
+    partial class OrdersCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -63,6 +65,9 @@ namespace BookStore.Migrations
                     b.Property<DateTime>("ModifedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("OrderID")
+                        .HasColumnType("int");
+
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
@@ -78,6 +83,8 @@ namespace BookStore.Migrations
                     b.HasIndex("AuthorID");
 
                     b.HasIndex("CategoryID");
+
+                    b.HasIndex("OrderID");
 
                     b.ToTable("Book");
                 });
@@ -138,31 +145,6 @@ namespace BookStore.Migrations
                     b.ToTable("Order");
                 });
 
-            modelBuilder.Entity("BookStore.Models.OrderItem", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("BookID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("OrderID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Qty")
-                        .HasColumnType("int");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("BookID");
-
-                    b.HasIndex("OrderID");
-
-                    b.ToTable("OrderItem");
-                });
-
             modelBuilder.Entity("BookStore.Models.Book", b =>
                 {
                     b.HasOne("BookStore.Models.Author", "Author")
@@ -176,21 +158,10 @@ namespace BookStore.Migrations
                         .HasForeignKey("CategoryID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
 
-            modelBuilder.Entity("BookStore.Models.OrderItem", b =>
-                {
-                    b.HasOne("BookStore.Models.Book", "Book")
-                        .WithMany("OrderItems")
-                        .HasForeignKey("BookID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BookStore.Models.Order", "Order")
-                        .WithMany("OrderItems")
-                        .HasForeignKey("OrderID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("BookStore.Models.Order", null)
+                        .WithMany("Books")
+                        .HasForeignKey("OrderID");
                 });
 #pragma warning restore 612, 618
         }

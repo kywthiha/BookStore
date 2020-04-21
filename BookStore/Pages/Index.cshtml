@@ -1,10 +1,31 @@
 ﻿@page
 @model IndexModel
+
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Book Store";
+    ViewData["counts"] = Model.BookCatsInfo; 
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<h1>Index</h1>
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        @foreach (var item in Model.Book)
+        {
+
+            <div class="card" style="width: 10rem;margin:0.3rem">
+                <img class="card-img-top" style="width: 10rem;height:15rem;" src="~/images/@item.Cover" alt="Card image cap">
+                <div class="card-body text-center" style="padding:0.05rem;">
+                    <p class="text-body">
+                        <a asp-page="./Details" asp-route-id="@item.ID"><span class="font-weight-bold">@Html.DisplayFor(model => item.Title)</span></a><br />
+                        <span class="font-italic">@Html.DisplayFor(model => item.Author.Name)</span><br />
+                        <span class="badge badge-success">@Html.DisplayFor(model => item.Price)</span>
+                    </p>
+                </div>
+                <div class="card-footer text-muted text-center">
+                    <a asp-page="./Index" asp-route-id="@item.ID" class="btn btn-primary btn-sm">Add To Card <i class="fa fa-cart-plus" aria-hidden="true"></i></a>
+
+                </div>
+            </div>
+        }
+    </div>
 </div>

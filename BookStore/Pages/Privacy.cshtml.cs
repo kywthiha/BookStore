@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 
-namespace BookStore.Pages.Admin
+namespace BookStore.Pages
 {
     public class PrivacyModel : PageModel
     {
@@ -17,8 +17,11 @@ namespace BookStore.Pages.Admin
             _logger = logger;
         }
 
+        public string BookCatsInfo { get; set; }
+
         public void OnGet()
         {
+            BookCatsInfo = SessionExtensions.GetCounts(HttpContext.Session).ToString();
         }
     }
 }

@@ -7,33 +7,32 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using BookStore.Data;
 using BookStore.Models;
-using Newtonsoft.Json;
 
 namespace BookStore.Pages
 {
-    public class IndexModel : PageModel
+    public class DetailsModel : PageModel
     {
         private readonly BookStore.Data.BookStoreContext _context;
 
-        public IndexModel(BookStore.Data.BookStoreContext context)
+        public DetailsModel(BookStore.Data.BookStoreContext context)
         {
             _context = context;
         }
 
-        public IList<Book> Book { get;set; }
-        public string BookCatsInfo { get; set; }
-        public IDictionary<string, int> BookCats { get ; set; }
+        public Book Book { get; set; }
+        public IDictionary<string, int> BookCats { get; set; }
+        public string BookCatsInfo { get; private set; }
 
-        public async Task<ActionResult> OnGetAsync(int? id,int? clearData)
+        public async Task<IActionResult> OnGetAsync(int? id,int? addCatId)
         {
-
-            if (clearData != null && clearData.Value == 1)
+            BookCatsInfo = SessionExtensions.GetCounts(HttpContext.Session).ToString();
+            if (id == null)
             {
-                HttpContext.Session.Remove("bookCats");
+                return NotFound();
             }
-            if (id != null)
+            if (addCatId != null)
             {
-                string key = id.Value.ToString();
+                string key = addCatId.Value.ToString();
                 BookCats = SessionExtensions.Get<IDictionary<string, int>>(HttpContext.Session, "bookCats");
                 if (BookCats == null)
                 {
@@ -49,17 +48,20 @@ namespace BookStore.Pages
                 }
 
                 SessionExtensions.Set<IDictionary<string, int>>(HttpContext.Session, "bookCats", BookCats);
-                return Redirect("/");
-                
-                
+                return Redirect("/Details?id="+id);
+
+
             }
-            BookCatsInfo = SessionExtensions.GetCounts(HttpContext.Session).ToString();
             Book = await _context
                 .Book
                 .Include(b=>b.Author)
                 .Include(b=>b.Category)
-                .AsNoTracking()
-                .ToListAsync();
+                .FirstOrDefaultAsync(m => m.ID == id);
+            
+            if (Book == null)
+            {
+                return NotFound();
+            }
             return Page();
         }
     }

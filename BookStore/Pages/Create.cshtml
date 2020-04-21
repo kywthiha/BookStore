@@ -1,0 +1,95 @@
+﻿@page
+@model BookStore.Pages.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+    ViewData["counts"] = Model.BookCatsInfo;
+}
+<h4>View Card</h4>
+<hr />
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-md-7">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">@Html.DisplayNameFor(model => model.Books[0].Title)</th>
+                        <th scope="col">@Html.DisplayNameFor(model => model.Books[0].Price)</th>
+                        <th scope="col">@Html.DisplayNameFor(model => model.Books[0].OrderItem.Qty)</th>
+                        <th scope="col">@Html.DisplayNameFor(model => model.Books[0].OrderItem.Total)</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        int countsNo = 0;
+                        double TotalPrice = 0.0;
+                    }
+                    @foreach (var item in Model.Books)
+                    {
+                        countsNo++;
+                        TotalPrice += item.OrderItem.Total;
+                        <tr>
+                            <th scope="row">@countsNo</th>
+                            <td>@Html.DisplayFor(model => item.Title)</td>
+                            <td>@Html.DisplayFor(model => item.Price)</td>
+                            <td>@Html.DisplayFor(model => item.OrderItem.Qty)</td>
+                            <td>@Html.DisplayFor(model => item.OrderItem.Total)</td>
+                        </tr>
+                    }
+                    <tr class="bg-light text-danger">
+                        <td colspan="4" align="right">Total Price</td>
+                        <td>$ @TotalPrice</td>
+                    </tr>
+
+                </tbody>
+            </table>
+            <a asp-page="./Index" class="btn btn-outline-primary active" role="button" aria-pressed="true" >Continue Shopping</a>
+            <a asp-page="./Index" asp-route-clearData="1"  class="btn btn-outline-danger active" role="button" aria-pressed="true">Clear Cart</a>
+        </div>
+        <div class="col-md-7">
+            <div class="row">
+                <div class="col-md-7">
+                    <h4>Order Now</h4>
+                    <hr />
+                    <form method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="Order.Name" class="control-label"></label>
+                            <input asp-for="Order.Name" class="form-control" />
+                            <span asp-validation-for="Order.Name" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Order.Email" class="control-label"></label>
+                            <input asp-for="Order.Email" class="form-control" />
+                            <span asp-validation-for="Order.Email" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Order.Phone" class="control-label"></label>
+                            <input asp-for="Order.Phone" class="form-control" />
+                            <span asp-validation-for="Order.Phone" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Order.Address" class="control-label"></label>
+                            <textarea asp-for="Order.Address" class="form-control"></textarea>
+                            <span asp-validation-for="Order.Address" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Order" class="btn btn-primary" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -21,6 +21,7 @@ namespace BookStore.Models
         public string Summary { get; set; }
         [DataType(DataType.Currency)]
         [Required]
+        [Display(Name ="Unit Price")]
         public double Price { get; set; }
         public Category Category { get; set; }
         [Required]
@@ -30,6 +31,8 @@ namespace BookStore.Models
         public DateTime CreateDate { get; set; }
         [DataType(DataType.DateTime)]
         public DateTime ModifedDate { get; set; }
+        [NotMapped]
+        public OrderItem OrderItem { get; set; }
 
         [NotMapped]
         [DataType(DataType.Upload)]
@@ -37,5 +40,6 @@ namespace BookStore.Models
         [MaxFileSize(5 *1024* 1024)]
         [AllowedExtensions(new string[] { ".jpg", ".png" })]
         public IFormFile FormFile { get; set; }
+        public ICollection<OrderItem> OrderItems { get; set; }
     }
 }
