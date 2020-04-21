@@ -1,31 +1,49 @@
-﻿@page
+﻿@page 
 @model IndexModel
 
 @{
     ViewData["Title"] = "Book Store";
     ViewData["counts"] = Model.BookCatsInfo; 
 }
-
-<h1>Index</h1>
+    <form class="form-inline">
+        <div class="form-group col-md-2">
+            <select class="form-control" asp-for="BookAuthor" asp-items="Model.Authors">
+                <option value="">Select Author</option>
+            </select>
+        </div>
+        <div class="form-group col-md-2">
+            <select class="form-control" asp-for="BookCategory" asp-items="Model.Categories">
+                <option value="">Select Category</option>
+            </select>
+        </div>
+        <div class="form-group mx-sm-3 mb-2">
+            <input type="search" asp-for="SearchString" class="form-control" id="inputPassword2" placeholder="Enter book title">
+        </div>
+        <button type="submit" class="btn btn-primary mb-2">Search</button>
+    </form>
 <div class="container-fluid">
     <div class="row justify-content-center">
         @foreach (var item in Model.Book)
         {
 
-            <div class="card" style="width: 10rem;margin:0.3rem">
-                <img class="card-img-top" style="width: 10rem;height:15rem;" src="~/images/@item.Cover" alt="Card image cap">
-                <div class="card-body text-center" style="padding:0.05rem;">
-                    <p class="text-body">
-                        <a asp-page="./Details" asp-route-id="@item.ID"><span class="font-weight-bold">@Html.DisplayFor(model => item.Title)</span></a><br />
-                        <span class="font-italic">@Html.DisplayFor(model => item.Author.Name)</span><br />
-                        <span class="badge badge-success">@Html.DisplayFor(model => item.Price)</span>
-                    </p>
-                </div>
-                <div class="card-footer text-muted text-center">
-                    <a asp-page="./Index" asp-route-id="@item.ID" class="btn btn-primary btn-sm">Add To Card <i class="fa fa-cart-plus" aria-hidden="true"></i></a>
-
-                </div>
+        <div class="card" style="width: 10rem;margin:0.3rem">
+            <div class="card-img-overlay text-right" style="bottom: auto;padding:0rem;">
+                <span class="badge badge-success">@Html.DisplayFor(model => item.Category.Title)</span>
             </div>
+            <img class="card-img-top" style="width: 10rem;height:15rem;" src="~/images/@item.Cover" alt="Card image cap">
+
+            <div class="card-body text-center" style="padding:0.05rem;">
+                <p class="text-body">
+                    <a asp-page="./Details" asp-route-id="@item.ID"><span class="font-weight-bold">@Html.DisplayFor(model => item.Title)</span></a><br />
+                    <span class="font-italic">@Html.DisplayFor(model => item.Author.Name)</span><br />
+                    <span class="badge badge-success">@Html.DisplayFor(model => item.Price)</span>
+                </p>
+            </div>
+            <div class="card-footer text-muted text-center">
+                <a asp-page="./Index" asp-route-id="@item.ID" class="btn btn-primary btn-sm">Add To Card <i class="fa fa-cart-plus" aria-hidden="true"></i></a>
+
+            </div>
+        </div>
         }
     </div>
 </div>
